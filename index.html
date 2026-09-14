@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>CHDARC · 长安大学业余无线电协会</title>
+	<meta name="description" content="长安大学业余无线电协会（CHDARC），成立于 2025 年 10 月，专注业余无线电通信、电子 DIY 与技术交流。">
+	<meta name="theme-color" content="#0b0f14">
+	<meta property="og:title" content="CHDARC · 长安大学业余无线电协会">
+	<meta property="og:description" content="以电波连接世界，以热爱探索无限。业余无线电 · 电子 DIY · 技术交流">
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://www.chdarc.club/">
+	<link rel="icon" href="/assets/favicon.png" type="image/svg+xml">
+	<link rel="canonical" href="https://www.chdarc.club/">
+
+	<style>
+		:root {
+			--bg: #0b0f14;
+			--bg-2: #10161d;
+			--card: #141b24;
+			--border: rgba(255, 255, 255, .08);
+			--border-strong: rgba(255, 255, 255, .14);
+			--text: #e9edf2;
+			--text-dim: #98a4b3;
+			--text-faint: #6b7786;
+			--accent: #575bcd;
+			/* signal amber */
+			--accent-soft: rgba(240, 179, 92, .14);
+			--green: #5ad1b0;
+			/* on-air */
+			--radius: 16px;
+			--maxw: 1120px;
+			--font-sans: "Inter", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+			--font-mono: "SF Mono", "JetBrains Mono", ui-monospace, "Cascadia Code", "Roboto Mono", Consolas, monospace;
+		}
+
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box
+		}
+
+		html {
+			scroll-behavior: smooth;
+			-webkit-text-size-adjust: 100%
+		}
+
+		body {
+			background: var(--bg);
+			color: var(--text);
+			font-family: var(--font-sans);
+			line-height: 1.7;
+			-webkit-font-smoothing: antialiased;
+			text-rendering: optimizeLegibility;
+			overflow-x: hidden;
+		}
+
+		::selection {
+			background: var(--accent);
+			color: #1a1206
+		}
+
+		a {
+			color: inherit;
+			text-decoration: none
+		}
+
+		img,
+		svg {
+			display: block
+		}
+
+		/* ambient background */
+		.bg-glow {
+			position: fixed;
+			inset: 0;
+			z-index: -1;
+			pointer-events: none;
+			background:
+				radial-gradient(900px 500px at 50% -10%, rgba(240, 179, 92, .10), transparent 60%),
+				radial-gradient(700px 500px at 85% 15%, rgba(90, 209, 176, .06), transparent 60%),
+				var(--bg);
+		}
+
+		.bg-grid {
+			position: fixed;
+			inset: 0;
+			z-index: -1;
+			pointer-events: none;
+			opacity: .5;
+			background-image: linear-gradient(rgba(255, 255, 255, .025) 1px, transparent 1px),
+				linear-gradient(90deg, rgba(255, 255, 255, .025) 1px, transparent 1px);
+			background-size: 56px 56px;
+			mask-image: radial-gradient(1000px 600px at 50% 0%, #000 30%, transparent 75%);
+			-webkit-mask-image: radial-gradient(1000px 600px at 50% 0%, #000 30%, transparent 75%);
+		}
+
+		.wrap {
+			max-width: var(--maxw);
+			margin: 0 auto;
+			padding: 0 24px
+		}
+
+		/* ---------- Nav ---------- */
+		header {
+			position: sticky;
+			top: 0;
+			z-index: 50;
+			background: rgba(11, 15, 20, .72);
+			backdrop-filter: saturate(140%) blur(14px);
+			-webkit-backdrop-filter: saturate(140%) blur(14px);
+			border-bottom: 1px solid var(--border);
+		}
+
+		.nav {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			height: 66px
+		}
+
+		.brand {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			font-weight: 700;
+			letter-spacing: .02em
+		}
+
+		.brand .mark {
+			width: 34px;
+			height: 34px;
+			border-radius: 9px;
+			flex: 0 0 auto;
+			display: grid;
+			place-items: center;
+			background: linear-gradient(135deg, var(--accent), #d98f2e);
+			color: #1a1206;
+			font-family: var(--font-mono);
+			font-size: 13px;
+			font-weight: 700;
+			box-shadow: 0 4px 18px rgba(240, 179, 92, .28);
+		}
+
+		.brand .name {
+			font-size: 17px;
+			letter-spacing: .05em
+		}
+
+		.brand .name small {
+			display: block;
+			font-weight: 400;
+			font-size: 10.5px;
+			color: var(--text-faint);
+			letter-spacing: .16em;
+			text-transform: uppercase
+		}
+
+		.nav-links {
+			display: flex;
+			align-items: center;
+			gap: 30px
+		}
+
+		.nav-links a {
+			font-size: 14.5px;
+			color: var(--text-dim);
+			transition: color .18s ease
+		}
+
+		.nav-links a:hover {
+			color: var(--text)
+		}
+
+		.nav-cta {
+			display: inline-flex;
+			align-items: center;
+			gap: 7px;
+			padding: 8px 18px;
+			border-radius: 999px;
+			background: var(--accent);
+			color: #1a1206;
+			font-weight: 600;
+			font-size: 14px;
+			transition: transform .18s ease, box-shadow .18s ease;
+		}
+
+		.nav-cta:hover {
+			transform: translateY(-1px);
+			box-shadow: 0 6px 20px rgba(240, 179, 92, .32)
+		}
+
+		.nav-toggle {
+			display: none;
+			background: none;
+			border: 1px solid var(--border-strong);
+			border-radius: 9px;
+			width: 40px;
+			height: 40px;
+			place-items: center;
+			cursor: pointer;
+			color: var(--text)
+		}
+
+		.nav-toggle svg {
+			width: 20px;
+			height: 20px
+		}
+
+		/* ---------- Hero ---------- */
+		.hero {
+			position: relative;
+			padding: 104px 0 88px;
+			text-align: center
+		}
+
+		.eyebrow {
+			display: inline-flex;
+			align-items: center;
+			gap: 9px;
+			padding: 7px 15px;
+			border: 1px solid var(--border);
+			border-radius: 999px;
+			font-size: 13px;
+			color: var(--text-dim);
+			letter-spacing: .02em;
+		}
+
+		.dot {
+			width: 8px;
+			height: 8px;
+			border-radius: 50%;
+			background: var(--green);
+			box-shadow: 0 0 0 0 rgba(90, 209, 176, .6);
+			animation: pulse 2.4s infinite
+		}
+
+		@keyframes pulse {
+			0% {
+				box-shadow: 0 0 0 0 rgba(90, 209, 176, .5)
+			}
+
+			70% {
+				box-shadow: 0 0 0 9px rgba(90, 209, 176, 0)
+			}
+
+			100% {
+				box-shadow: 0 0 0 0 rgba(90, 209, 176, 0)
+			}
+		}
+
+		.hero h1 {
+			font-size: clamp(44px, 9vw, 104px);
+			font-weight: 800;
+			letter-spacing: .02em;
+			line-height: 1.02;
+			margin: 34px 0 10px;
+			background: linear-gradient(180deg, #fff 30%, #b9c4d0);
+			-webkit-background-clip: text;
+			background-clip: text;
+			color: transparent;
+		}
+
+		.hero .sub {
+			font-size: clamp(17px, 2.6vw, 22px);
+			color: var(--text-dim);
+			font-weight: 400;
+			letter-spacing: .04em
+		}
+
+		.hero .tag {
+			max-width: 640px;
+			margin: 22px auto 0;
+			color: var(--text-faint);
+			font-size: clamp(14.5px, 2vw, 16px);
+		}
+
+		.morse {
+			margin-top: 30px;
+			font-family: var(--font-mono);
+			font-size: 13px;
+			letter-spacing: .34em;
+			color: var(--accent);
+			opacity: .85
+		}
+
+		.hero-actions {
+			display: flex;
+			justify-content: center;
+			gap: 14px;
+			margin-top: 38px;
+			flex-wrap: wrap
+		}
+
+		.btn {
+			display: inline-flex;
+			align-items: center;
+			gap: 9px;
+			padding: 13px 26px;
+			border-radius: 12px;
+			font-weight: 600;
+			font-size: 15px;
+			transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+		}
+
+		.btn svg {
+			width: 18px;
+			height: 18px
+		}
+
+		.btn-primary {
+			background: var(--accent);
+			color: #1a1206
+		}
+
+		.btn-primary:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 10px 28px rgba(240, 179, 92, .32)
+		}
+
+		.btn-ghost {
+			border: 1px solid var(--border-strong);
+			color: var(--text);
+			background: rgba(255, 255, 255, .02)
+		}
+
+		.btn-ghost:hover {
+			background: rgba(255, 255, 255, .06);
+			transform: translateY(-2px)
+		}
+
+		/* signal rings */
+		.rings {
+			position: relative;
+			width: 120px;
+			height: 120px;
+			margin: 52px auto 0
+		}
+
+		.rings i {
+			position: absolute;
+			inset: 0;
+			border-radius: 50%;
+			border: 1px solid rgba(240, 179, 92, .35);
+			animation: ring 4s ease-out infinite;
+		}
+
+		.rings i:nth-child(2) {
+			animation-delay: 1.2s
+		}
+
+		.rings i:nth-child(3) {
+			animation-delay: 2.4s
+		}
+
+		@keyframes ring {
+			0% {
+				transform: scale(.28);
+				opacity: 0
+			}
+
+			30% {
+				opacity: 1
+			}
+
+			100% {
+				transform: scale(1);
+				opacity: 0
+			}
+		}
+
+		.rings .core {
+			position: absolute;
+			inset: 0;
+			display: grid;
+			place-items: center
+		}
+
+		.rings .core span {
+			width: 34px;
+			height: 34px;
+			border-radius: 50%;
+			background: var(--accent);
+			box-shadow: 0 0 30px rgba(240, 179, 92, .6)
+		}
+
+		/* ---------- Sections ---------- */
+		section {
+			padding: 84px 0
+		}
+
+		.sec-head {
+			margin-bottom: 46px
+		}
+
+		.sec-label {
+			font-family: var(--font-mono);
+			font-size: 12.5px;
+			letter-spacing: .28em;
+			text-transform: uppercase;
+			color: var(--accent);
+			margin-bottom: 14px;
+		}
+
+		.sec-title {
+			font-size: clamp(26px, 4vw, 38px);
+			font-weight: 700;
+			letter-spacing: .01em;
+			line-height: 1.25
+		}
+
+		.sec-sub {
+			color: var(--text-dim);
+			margin-top: 12px;
+			max-width: 620px;
+			font-size: 15.5px
+		}
+
+		/* ---------- About ---------- */
+		.about-grid {
+			display: grid;
+			grid-template-columns: 1.1fr .9fr;
+			gap: 40px;
+			align-items: start
+		}
+
+		.about-text p {
+			color: var(--text-dim);
+			font-size: 16px
+		}
+
+		.about-text p+p {
+			margin-top: 16px
+		}
+
+		.about-facts {
+			display: grid;
+			gap: 14px
+		}
+
+		.fact {
+			display: flex;
+			align-items: center;
+			gap: 16px;
+			padding: 18px 20px;
+			border: 1px solid var(--border);
+			border-radius: var(--radius);
+			background: var(--card);
+			transition: border-color .2s ease, transform .2s ease;
+		}
+
+		.fact:hover {
+			border-color: var(--border-strong);
+			transform: translateY(-2px)
+		}
+
+		.fact .ico {
+			width: 42px;
+			height: 42px;
+			border-radius: 11px;
+			display: grid;
+			place-items: center;
+			background: var(--accent-soft);
+			color: var(--accent);
+			flex: 0 0 auto
+		}
+
+		.fact .ico svg {
+			width: 21px;
+			height: 21px
+		}
+
+		.fact .k {
+			font-size: 13px;
+			color: var(--text-faint);
+			letter-spacing: .02em
+		}
+
+		.fact .v {
+			font-size: 16px;
+			font-weight: 600;
+			letter-spacing: .01em
+		}
+
+		/* ---------- Activities ---------- */
+		.cards {
+			display: grid;
+			grid-template-columns: repeat(4, 1fr);
+			gap: 18px
+		}
+
+		.card {
+			position: relative;
+			padding: 28px 24px;
+			border: 1px solid var(--border);
+			border-radius: var(--radius);
+			background: var(--card);
+			overflow: hidden;
+			transition: transform .22s ease, border-color .22s ease;
+		}
+
+		.card:hover {
+			transform: translateY(-5px);
+			border-color: var(--border-strong)
+		}
+
+		.card::after {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			height: 2px;
+			background: linear-gradient(90deg, var(--accent), transparent);
+			opacity: 0;
+			transition: opacity .22s
+		}
+
+		.card:hover::after {
+			opacity: 1
+		}
+
+		.card .ico {
+			width: 46px;
+			height: 46px;
+			border-radius: 12px;
+			display: grid;
+			place-items: center;
+			background: var(--accent-soft);
+			color: var(--accent);
+			margin-bottom: 20px
+		}
+
+		.card .ico svg {
+			width: 23px;
+			height: 23px
+		}
+
+		.card h3 {
+			font-size: 18px;
+			font-weight: 600;
+			margin-bottom: 9px;
+			letter-spacing: .01em
+		}
+
+		.card p {
+			font-size: 14px;
+			color: var(--text-dim);
+			line-height: 1.6
+		}
+
+		/* ---------- Join ---------- */
+		.join {
+			border: 1px solid var(--border);
+			border-radius: 22px;
+			background: linear-gradient(180deg, var(--card), var(--bg-2));
+			padding: 56px 40px;
+			text-align: center;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.join::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+			background: radial-gradient(600px 300px at 50% 0%, rgba(240, 179, 92, .10), transparent 60%);
+			pointer-events: none
+		}
+
+		.join h2 {
+			font-size: clamp(24px, 3.5vw, 34px);
+			font-weight: 700;
+			margin-bottom: 12px
+		}
+
+		.join>p {
+			color: var(--text-dim);
+			max-width: 560px;
+			margin: 0 auto 30px
+		}
+
+		.qq-box {
+			display: inline-flex;
+			align-items: center;
+			gap: 14px;
+			padding: 16px 24px;
+			border-radius: 14px;
+			background: rgba(0, 0, 0, .25);
+			border: 1px solid var(--border-strong);
+			position: relative
+		}
+
+		.qq-num {
+			font-family: var(--font-mono);
+			font-size: clamp(22px, 4vw, 30px);
+			font-weight: 700;
+			letter-spacing: .06em;
+			color: var(--accent)
+		}
+
+		.copy-btn {
+			display: inline-flex;
+			align-items: center;
+			gap: 7px;
+			padding: 9px 16px;
+			border-radius: 10px;
+			border: none;
+			cursor: pointer;
+			background: var(--accent);
+			color: #1a1206;
+			font-weight: 600;
+			font-size: 14px;
+			font-family: var(--font-sans);
+			transition: transform .16s ease, box-shadow .16s ease;
+		}
+
+		.copy-btn:hover {
+			transform: translateY(-1px);
+			box-shadow: 0 6px 20px rgba(240, 179, 92, .32)
+		}
+
+		.copy-btn.copied {
+			background: var(--green)
+		}
+
+		.copy-btn svg {
+			width: 16px;
+			height: 16px
+		}
+
+		.join-note {
+			margin-top: 22px;
+			font-size: 13px;
+			color: var(--text-faint)
+		}
+
+		/* ---------- Links ---------- */
+		.links {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 18px
+		}
+
+		.link {
+			display: flex;
+			align-items: center;
+			gap: 18px;
+			padding: 22px 24px;
+			border: 1px solid var(--border);
+			border-radius: var(--radius);
+			background: var(--card);
+			transition: transform .2s ease, border-color .2s ease;
+		}
+
+		.link:hover {
+			transform: translateY(-3px);
+			border-color: var(--border-strong)
+		}
+
+		.link .ico {
+			width: 46px;
+			height: 46px;
+			border-radius: 12px;
+			display: grid;
+			place-items: center;
+			background: rgba(255, 255, 255, .05);
+			color: var(--text);
+			flex: 0 0 auto
+		}
+
+		.link .ico svg {
+			width: 22px;
+			height: 22px
+		}
+
+		.link .t {
+			font-weight: 600;
+			font-size: 16px
+		}
+
+		.link .d {
+			font-size: 13px;
+			color: var(--text-faint);
+			margin-top: 2px
+		}
+
+		.link .arrow {
+			margin-left: auto;
+			color: var(--text-faint);
+			transition: transform .2s, color .2s
+		}
+
+		.link:hover .arrow {
+			transform: translateX(4px);
+			color: var(--accent)
+		}
+
+		.link .arrow svg {
+			width: 18px;
+			height: 18px
+		}
+
+		/* ---------- Footer ---------- */
+		footer {
+			border-top: 1px solid var(--border);
+			padding: 44px 0 56px
+		}
+
+		.foot {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 20px;
+			flex-wrap: wrap
+		}
+
+		.foot .left {
+			color: var(--text-faint);
+			font-size: 13.5px
+		}
+
+		.foot .left .callsign {
+			font-family: var(--font-mono);
+			color: var(--text-dim)
+		}
+
+		.foot .right {
+			font-family: var(--font-mono);
+			font-size: 13px;
+			color: var(--accent);
+			letter-spacing: .1em
+		}
+
+		.foot-links {
+			display: flex;
+			gap: 20px;
+			margin-top: 18px
+		}
+
+		.foot-links a {
+			font-size: 13px;
+			color: var(--text-faint);
+			transition: color .18s
+		}
+
+		.foot-links a:hover {
+			color: var(--text)
+		}
+
+		/* reveal */
+		.reveal {
+			opacity: 0;
+			transform: translateY(22px);
+			transition: opacity .6s ease, transform .6s ease
+		}
+
+		.reveal.in {
+			opacity: 1;
+			transform: none
+		}
+
+		/* ---------- Responsive ---------- */
+		@media (max-width:920px) {
+			.cards {
+				grid-template-columns: repeat(2, 1fr)
+			}
+
+			.about-grid {
+				grid-template-columns: 1fr;
+				gap: 32px
+			}
+		}
+
+		@media (max-width:640px) {
+			.nav-links {
+				display: none
+			}
+
+			.nav-toggle {
+				display: grid
+			}
+
+			.nav-links.mobile-open {
+				display: flex;
+				position: absolute;
+				top: 66px;
+				left: 0;
+				right: 0;
+				flex-direction: column;
+				align-items: stretch;
+				gap: 0;
+				background: rgba(11, 15, 20, .98);
+				border-bottom: 1px solid var(--border);
+				padding: 10px 24px 16px;
+			}
+
+			.nav-links.mobile-open a {
+				padding: 13px 0;
+				border-bottom: 1px solid var(--border);
+				font-size: 15.5px
+			}
+
+			.nav-links.mobile-open a:last-child {
+				border-bottom: none
+			}
+
+			.nav-links.mobile-open .nav-cta {
+				margin-top: 12px;
+				justify-content: center
+			}
+
+			.hero {
+				padding: 72px 0 64px
+			}
+
+			section {
+				padding: 60px 0
+			}
+
+			.cards {
+				grid-template-columns: 1fr
+			}
+
+			.links {
+				grid-template-columns: 1fr
+			}
+
+			.join {
+				padding: 44px 24px
+			}
+
+			.qq-box {
+				flex-direction: column;
+				gap: 16px
+			}
+
+			.wrap {
+				padding: 0 18px
+			}
+		}
+
+		@media (prefers-reduced-motion:reduce) {
+			* {
+				animation: none !important;
+				transition: none !important;
+				scroll-behavior: auto !important
+			}
+
+			.reveal {
+				opacity: 1;
+				transform: none
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div class="bg-glow"></div>
+	<div class="bg-grid"></div>
+
+	<header>
+		<div class="wrap nav">
+			<a href="#" class="brand" aria-label="CHDARC 首页">
+				<span class="mark">CH</span>
+				<span class="name">CHDARC<small>Chang'an Univ. Amateur Radio</small></span>
+			</a>
+			<nav class="nav-links" id="navLinks" aria-label="主导航">
+				<a href="#about">关于</a>
+				<a href="#activities">活动</a>
+				<a href="#join">加入</a>
+				<a href="#links">链接</a>
+				<a href="#join" class="nav-cta">
+					<!-- <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+						stroke-linejoin="round">
+						<path d="M20 6 9 17l-5-5" />
+					</svg> -->
+					加入我们
+				</a>
+			</nav>
+			<button class="nav-toggle" id="navToggle" aria-label="菜单" aria-expanded="false">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+					<path d="M4 7h16M4 12h16M4 17h16" />
+				</svg>
+			</button>
+		</div>
+	</header>
+
+	<main>
+		<!-- Hero -->
+		<section class="hero" id="top">
+			<div class="wrap">
+				<div class="eyebrow"><span class="dot"></span> 业余无线电 · 电子 DIY · 技术交流</div>
+				<h1>CHDARC</h1>
+				<p class="sub">长安大学业余无线电协会</p>
+				<p class="tag">Chang'an University Amateur Radio Club —— 以电波连接世界，以热爱探索无限。无论你是资深火腿，还是零基础小白，这里都有一份属于你的频率。
+				</p>
+				<div class="morse">-.-. .... -.. .- .-. -.-.</div>
+
+				<div class="hero-actions">
+					<a href="#join" class="btn btn-primary">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+							stroke-linecap="round" stroke-linejoin="round">
+							<path d="M20 6 9 17l-5-5" />
+						</svg>
+						加入社团
+					</a>
+					<a href="https://github.com/chdarc/" target="_blank" rel="noopener" class="btn btn-ghost">
+						<svg viewBox="0 0 24 24" fill="currentColor">
+							<path
+								d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 0 0 7.86 10.91c.58.11.79-.25.79-.56v-2.16c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.34.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.74.81 1.18 1.83 1.18 3.09 0 4.42-2.7 5.39-5.27 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.68.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z" />
+						</svg>
+						GitHub
+					</a>
+				</div>
+
+				<div class="rings" aria-hidden="true">
+					<i></i><i></i><i></i>
+					<span class="core"><span></span></span>
+				</div>
+			</div>
+		</section>
+
+		<!-- About -->
+		<section id="about">
+			<div class="wrap">
+				<div class="sec-head">
+					<div class="sec-label">About · 关于我们</div>
+					<h2 class="sec-title">一群热爱电波的人</h2>
+				</div>
+				<div class="about-grid">
+					<div class="about-text">
+						<p>长安大学业余无线电协会（CHDARC）成立于 2025 年 10 月，是一群对无线电通信与电子技术充满热情的在校学生共同发起组建的兴趣社团。</p>
+						<p>我们致力于普及业余无线电知识，搭建一个开放、友好、持续探索的技术交流平台。从短波到超短波，从 Morse
+							电码到软件无线电，从电路焊接到底层开发——在这里，兴趣是最好的老师，热爱是最强的信号。</p>
+					</div>
+					<div class="about-facts">
+						<div class="fact">
+							<span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+									stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+									<rect x="3" y="4" width="18" height="18" rx="2" />
+									<path d="M16 2v4M8 2v4M3 10h18" />
+								</svg></span>
+							<div>
+								<div class="k">成立时间</div>
+								<div class="v">2025 年 10 月</div>
+							</div>
+						</div>
+						<div class="fact">
+							<span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+									stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+									<circle cx="12" cy="8" r="4" />
+									<path d="M4 21c0-4 3.6-6 8-6s8 2 8 6" />
+								</svg></span>
+							<div>
+								<div class="k">负责人 / 社长</div>
+								<div class="v">BA3PT</div>
+							</div>
+						</div>
+						<div class="fact">
+							<span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+									stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+									<path d="M4 16V8a4 4 0 0 1 8 0v8" />
+									<path d="M8 16h2M16 8a4 4 0 0 1 8 0v8a4 4 0 0 1-8 0" />
+									<circle cx="20" cy="16" r="2" />
+								</svg></span>
+							<div>
+								<div class="k">所在学校</div>
+								<div class="v">长安大学</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Activities -->
+		<section id="activities">
+			<div class="wrap">
+				<div class="sec-head">
+					<div class="sec-label">Activities · 社团活动</div>
+					<h2 class="sec-title">我们在做什么</h2>
+					<p class="sec-sub">四大方向，覆盖无线电与电子技术的完整探索路径。</p>
+				</div>
+				<div class="cards">
+					<div class="card reveal">
+						<span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path d="M4 15a8 8 0 0 1 16 0" />
+								<circle cx="5" cy="19" r="2" />
+								<circle cx="19" cy="19" r="2" />
+								<path d="M12 15v-2" />
+							</svg></span>
+						<h3>业余无线电通信</h3>
+						<p>短波与超短波通联、Morse 电码、电台操作，让每一次呼叫都跨越山海。</p>
+					</div>
+					<div class="card reveal">
+						<span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+								stroke-linecap="round" stroke-linejoin="round">
+								<rect x="7" y="7" width="10" height="10" rx="1.5" />
+								<path d="M9 7V4M15 7V4M9 20v-3M15 20v-3M7 9H4M7 15H4M20 9h-3M20 15h-3" />
+							</svg></span>
+						<h3>电子 DIY</h3>
+						<p>电路设计、焊接制作、天线架设，把想法亲手变成能发声的装置。</p>
+					</div>
+					<div class="card reveal">
+						<span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path d="M21 12a8 8 0 0 1-8 8H5l-2 2V12a8 8 0 0 1 8-8h2a8 8 0 0 1 8 8Z" />
+							</svg></span>
+						<h3>技术交流</h3>
+						<p>定期技术沙龙与经验分享，让知识和经验在社团里流动起来。</p>
+					</div>
+					<div class="card reveal">
+						<span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+								stroke-linecap="round" stroke-linejoin="round">
+								<rect x="2" y="4" width="20" height="13" rx="2" />
+								<path d="M8 21h8M12 17v4" />
+								<path d="M7 9h2M12 9h2M7 12h4" />
+							</svg></span>
+						<h3>计算机 · 电子技术</h3>
+						<p>编程、嵌入式与电子技术的交叉探索，软硬件结合的进阶之路。</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Join -->
+		<section id="join">
+			<div class="wrap">
+				<div class="join">
+					<div class="sec-label">Join Us · 加入我们</div>
+					<h2>欢迎上频率</h2>
+					<p>无论你是资深火腿还是零基础小白，只要热爱无线电与电子技术，我们都欢迎你的加入。</p>
+					<div class="qq-box">
+						<span class="qq-num">965954401</span>
+						<button class="copy-btn" id="copyBtn" type="button">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+								stroke-linecap="round" stroke-linejoin="round">
+								<rect x="9" y="9" width="12" height="12" rx="2" />
+								<path d="M5 15V5a2 2 0 0 1 2-2h10" />
+							</svg>
+							<span class="copy-label">复制 QQ 群号</span>
+						</button>
+					</div>
+					<p class="join-note">加入 QQ 群 · 群号 965954401</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- Links -->
+		<section id="links">
+			<div class="wrap">
+				<div class="sec-head">
+					<div class="sec-label">Links · 友情链接</div>
+					<h2 class="sec-title">相关资源</h2>
+				</div>
+				<div class="links">
+					<a class="link" href="https://www.crac.org.cn/" target="_blank" rel="noopener">
+						<span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path d="M3 12a9 9 0 1 0 9-9" />
+								<path d="M3 12h4M3 12a9 9 0 0 1 9 9" />
+							</svg></span>
+						<span><span class="t">CRAC</span>
+							<div class="d">中国无线电协会业余无线电分会</div>
+						</span>
+						<span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path d="M7 17 17 7M8 7h9v9" />
+							</svg></span>
+					</a>
+					<a class="link" href="https://github.com/chdarc/" target="_blank" rel="noopener">
+						<span class="ico"><svg viewBox="0 0 24 24" fill="currentColor">
+								<path
+									d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 0 0 7.86 10.91c.58.11.79-.25.79-.56v-2.16c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.34.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.74.81 1.18 1.83 1.18 3.09 0 4.42-2.7 5.39-5.27 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.68.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z" />
+							</svg></span>
+						<span><span class="t">chdarc · GitHub</span>
+							<div class="d">社团开源仓库</div>
+						</span>
+						<span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+								stroke-linecap="round" stroke-linejoin="round">
+								<path d="M7 17 17 7M8 7h9v9" />
+							</svg></span>
+					</a>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<footer>
+		<div class="wrap">
+			<div class="foot">
+				<div class="left">
+					Copyright 2025 长安大学业余无线电协会 · <span class="callsign">CHDARC</span>
+				</div>
+				<div class="right">- - . . . &nbsp; . . . - - 73</div>
+			</div>
+			<div class="foot-links">
+				<a href="https://github.com/chdarc/" target="_blank" rel="noopener">GitHub</a>
+				<a href="https://www.crac.org.cn/" target="_blank" rel="noopener">CRAC</a>
+				<a href="#top">返回顶部</a>
+			</div>
+		</div>
+	</footer>
+
+	<script>
+		// 复制 QQ 群号
+		(function () {
+			var btn = document.getElementById('copyBtn');
+			if (!btn) return;
+			var label = btn.querySelector('.copy-label');
+			var orig = label.textContent;
+			btn.addEventListener('click', function () {
+				var text = '965954401';
+				function done() {
+					label.textContent = '已复制';
+					btn.classList.add('copied');
+					setTimeout(function () { label.textContent = orig; btn.classList.remove('copied'); }, 1800);
+				}
+				if (navigator.clipboard && navigator.clipboard.writeText) {
+					navigator.clipboard.writeText(text).then(done).catch(function () { fallback(); });
+				} else { fallback(); }
+				function fallback() {
+					var ta = document.createElement('textarea');
+					ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+					document.body.appendChild(ta); ta.select();
+					try { document.execCommand('copy'); done(); } catch (e) { }
+					document.body.removeChild(ta);
+				}
+			});
+		})();
+
+		// 移动端菜单
+		(function () {
+			var toggle = document.getElementById('navToggle');
+			var links = document.getElementById('navLinks');
+			if (!toggle || !links) return;
+			toggle.addEventListener('click', function () {
+				var open = links.classList.toggle('mobile-open');
+				toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+			});
+			links.querySelectorAll('a').forEach(function (a) {
+				a.addEventListener('click', function () { links.classList.remove('mobile-open'); toggle.setAttribute('aria-expanded', 'false'); });
+			});
+		})();
+
+		// 滚动显现
+		(function () {
+			var els = document.querySelectorAll('.reveal');
+			if (!els.length) return;
+			if (!('IntersectionObserver' in window)) { els.forEach(function (e) { e.classList.add('in'); }); return; }
+			var io = new IntersectionObserver(function (entries) {
+				entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+			}, { threshold: .12 });
+			els.forEach(function (e) { io.observe(e); });
+		})();
+	</script>
+</body>
+
+</html>
